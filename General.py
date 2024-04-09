@@ -37,3 +37,19 @@ class DataBaseApi:
                 sql = "INSERT INTO `orders` (`client_id`, `stat`, `date_acceptance`, `info`) VALUES (%s, %s, %s, %s)"
                 cursor.execute(sql, (client_id, stat, date, info))
             self.connection.commit()
+
+    def show_all_service(self):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            self.cr = self.connection.cursor()
+            log = f'''select orders.order_id, clients.FIO, orders.stat, orders.date_acceptance from orders
+            JOIN clients ON orders.client_id = clients.id
+            '''
+            self.cr.execute(log)
+            result = self.cr.fetchall()
+            for x in result:
+                print(x)
+            return result

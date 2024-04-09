@@ -124,7 +124,7 @@ class Ui_MainWindow(object):
         self.tabWidget_2.setGeometry(QtCore.QRect(10, 10, 741, 501))
         self.tabWidget_2.setAutoFillBackground(False)
         self.tabWidget_2.setStyleSheet("background-color: rgb(71, 71, 71);\n"
-"border-radius: 20%;\n"
+"border-radius: 1%;\n"
 "border: 0px;")
         self.tabWidget_2.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.tabWidget_2.setElideMode(QtCore.Qt.ElideNone)
@@ -152,13 +152,19 @@ class Ui_MainWindow(object):
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
         self.tableWidget_2 = QtWidgets.QTableWidget(self.tab_4)
-        self.tableWidget_2.setGeometry(QtCore.QRect(-10, 50, 741, 421))
+        self.tableWidget_2.setGeometry(QtCore.QRect(0, 50, 741, 421))
         self.tableWidget_2.setMinimumSize(QtCore.QSize(741, 421))
         self.tableWidget_2.setMaximumSize(QtCore.QSize(761, 421))
-        self.tableWidget_2.setStyleSheet("background-color: rgb(102, 102, 102);")
+        self.tableWidget_2.setMouseTracking(False)
+        self.tableWidget_2.setStyleSheet("background-color: rgb(102, 102, 102);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 87 8pt \"Segoe UI Black\";\n"
+"border: 0px;\n"
+"")
         self.tableWidget_2.setAutoScrollMargin(16)
         self.tableWidget_2.setDragEnabled(False)
-        self.tableWidget_2.setColumnCount(4)
+        self.tableWidget_2.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.tableWidget_2.setColumnCount(5)
         self.tableWidget_2.setObjectName("tableWidget_2")
         self.tableWidget_2.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
@@ -169,7 +175,9 @@ class Ui_MainWindow(object):
         self.tableWidget_2.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_2.setHorizontalHeaderItem(3, item)
-        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(182)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(4, item)
+        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(145)
         self.tableWidget_2.horizontalHeader().setMinimumSectionSize(33)
         self.tableWidget_2.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_2.verticalHeader().setVisible(False)
@@ -199,6 +207,12 @@ class Ui_MainWindow(object):
         self.lineEdit_clients.setObjectName("lineEdit_clients")
         self.lineEdit_info = QtWidgets.QLineEdit(self.tab_5)
         self.lineEdit_info.setGeometry(QtCore.QRect(12, 60, 721, 351))
+        self.lineEdit_info.setStyleSheet("color: rgb(255, 255, 255);\n"
+"font: 87 8pt \"Segoe UI Black\";\n"
+"border: 0px;\n"
+"\n"
+"")
+        self.lineEdit_info.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.lineEdit_info.setObjectName("lineEdit_info")
         self.tabWidget_2.addTab(self.tab_5, "")
         self.tabWidget.addTab(self.tab_3, "")
@@ -212,7 +226,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(1)
-        self.tabWidget_2.setCurrentIndex(1)
+        self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -233,6 +247,8 @@ class Ui_MainWindow(object):
         item = self.tableWidget_2.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "Статус"))
         item = self.tableWidget_2.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Дата"))
+        item = self.tableWidget_2.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Инфо"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), _translate("MainWindow", "Таблица заказов"))
         self.pushButton_input.setText(_translate("MainWindow", "Внести"))

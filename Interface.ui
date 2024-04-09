@@ -299,14 +299,14 @@ border-radius: 20%;</string>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(71, 71, 71);
-border-radius: 20%;
+border-radius: 1%;
 border: 0px;</string>
        </property>
        <property name="tabShape">
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideNone</enum>
@@ -367,7 +367,7 @@ background-color: rgb(255, 255, 255);</string>
         <widget class="QTableWidget" name="tableWidget_2">
          <property name="geometry">
           <rect>
-           <x>-10</x>
+           <x>0</x>
            <y>50</y>
            <width>741</width>
            <height>421</height>
@@ -385,8 +385,15 @@ background-color: rgb(255, 255, 255);</string>
            <height>421</height>
           </size>
          </property>
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(102, 102, 102);</string>
+          <string notr="true">background-color: rgb(102, 102, 102);
+color: rgb(255, 255, 255);
+font: 87 8pt &quot;Segoe UI Black&quot;;
+border: 0px;
+</string>
          </property>
          <property name="autoScrollMargin">
           <number>16</number>
@@ -394,14 +401,17 @@ background-color: rgb(255, 255, 255);</string>
          <property name="dragEnabled">
           <bool>false</bool>
          </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::NoSelection</enum>
+         </property>
          <property name="sortingEnabled">
           <bool>false</bool>
          </property>
          <property name="columnCount">
-          <number>4</number>
+          <number>5</number>
          </property>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>182</number>
+          <number>145</number>
          </attribute>
          <attribute name="horizontalHeaderMinimumSectionSize">
           <number>33</number>
@@ -425,6 +435,11 @@ background-color: rgb(255, 255, 255);</string>
          <column>
           <property name="text">
            <string>Статус</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Дата</string>
           </property>
          </column>
          <column>
