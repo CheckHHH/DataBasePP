@@ -1,0 +1,25 @@
+DROP DATABASE IF EXISTS bd;
+create database bd;
+use bd;
+
+create table clients(
+id int auto_increment primary key,
+FIO varchar(100),
+phone varchar(24),
+email varchar(256),
+datebrith varchar(12)
+);
+
+create table orders(
+order_id int auto_increment primary key,
+client_id int,
+stat varchar(20),
+date_acceptance varchar(20),
+info varchar(600),
+summ int,
+FOREIGN KEY (client_id) REFERENCES clients (id)
+);
+
+SHOW tables;
+select * FROM clients;
+select * FROM orders;

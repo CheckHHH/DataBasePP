@@ -6,7 +6,7 @@ class DataBaseApi:
     def __init__(self):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='admin',
+                                          password='root',
                                           database='bd')
         try:
             with self.connection:
@@ -19,7 +19,7 @@ class DataBaseApi:
     def registration(self, FIO, number, email, datebrith):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='admin',
+                                          password='root',
                                           database='bd')
         with self.connection:
             with self.connection.cursor() as cursor:
@@ -27,21 +27,21 @@ class DataBaseApi:
                 cursor.execute(sql, (FIO, number, email, datebrith))
             self.connection.commit()
 
-    def new_service(self, client_id, info, date, stat):
+    def new_service(self, client_id, info, date, stat, summ):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='admin',
+                                          password='root',
                                           database='bd')
         with self.connection:
             with self.connection.cursor() as cursor:
-                sql = "INSERT INTO `orders` (`client_id`, `stat`, `date_acceptance`, `info`) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, (client_id, stat, date, info))
+                sql = "INSERT INTO `orders` (`client_id`, `stat`, `date_acceptance`, `info`, `summ`) VALUES (%s, %s, %s, %s, %s)"
+                cursor.execute(sql, (client_id, stat, date, info, summ))
             self.connection.commit()
 
     def show_all_service(self):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='admin',
+                                          password='root',
                                           database='bd')
         with self.connection:
             self.cr = self.connection.cursor()
@@ -51,5 +51,23 @@ class DataBaseApi:
             self.cr.execute(log)
             result = self.cr.fetchall()
             for x in result:
-                print(x)
+                print(123)
+            return result
+
+    def showOrderDialog(self, num):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='root',
+                                          database='bd')
+        with self.connection:
+            self.cr = self.connection.cursor()
+            log = f'''SELECT clients.FIO, orders.date_acceptance, orders.info, orders.summ 
+                    FROM orders 
+                    JOIN clients ON orders.client_id = clients.id
+                    WHERE orders.order_id = {num};
+            '''
+            self.cr.execute(log)
+            result = self.cr.fetchall()
+            for x in result:
+                print(123)
             return result

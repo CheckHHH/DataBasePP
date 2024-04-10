@@ -31,7 +31,8 @@ class Work(QtWidgets.QMainWindow):
         stat = str("На выполнении")
         date = str(datetime.date.today())
         info = self.ui.lineEdit_info.text()
-        self.APIBD.new_service(clientID, info, date, stat)
+        summ = int(self.ui.lineEdit_sum.text())
+        self.APIBD.new_service(clientID, info, date, stat, summ)
 
     def check(self):
         usersIDs = self.APIBD.show_all_service()
@@ -41,22 +42,31 @@ class Work(QtWidgets.QMainWindow):
         self.ui.tableWidget_2.setSelectionMode(QtWidgets.QTableWidget.NoSelection)
         for i in range(len(usersIDs)):
             for j in range(5):
+                if j == 0:
+                    save = str(usersIDs[i][j])
+                    print(save)
                 if j < 4:
                     self.ui.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem(str(usersIDs[i][j])))
                 else:
-                    button = QtWidgets.QPushButton("Заказ")
+                    prints = "Заказ №" + save
+                    button = QtWidgets.QPushButton(prints)
                     button.setStyleSheet("background-color: white; border-radius: 10px;")
-                    button.clicked.connect(self.openInterfaceOrders)
+                    button.clicked.connect(lambda _, row=save: self.openInterfaceOrders(row))
                     self.ui.tableWidget_2.setCellWidget(i, j, button)
 
-    def openInterfaceOrders(self):
+    def openInterfaceOrders(self, row):
         self.other_interface = QtWidgets.QMainWindow()
         self.ui_other = Ui_Order()
         self.ui_other.setupUi(self.other_interface)
         self.other_interface.show()
 
+        self.ui_other.TextOrder_id.setText(row)
 
-
+        InfoID = self.APIBD.showOrderDialog(row)
+        self.ui_other.textBrowser_FIO.setText(str(InfoID[0][0]))
+        self.ui_other.textBrowser_date.setText(str(InfoID[0][1]))
+        self.ui_other.textBrowser_info.setText(str(InfoID[0][2]))
+        self.ui_other.textBrowser_sum.setText(str(InfoID[0][3]))
 
 
 

@@ -157,7 +157,7 @@ class Ui_MainWindow(object):
         self.tableWidget_2.setMaximumSize(QtCore.QSize(761, 421))
         self.tableWidget_2.setMouseTracking(False)
         self.tableWidget_2.setStyleSheet("background-color: rgb(102, 102, 102);\n"
-"color: rgb(255, 255, 255);\n"
+"color: rgb(0, 0, 0);\n"
 "font: 87 8pt \"Segoe UI Black\";\n"
 "border: 0px;\n"
 "")
@@ -206,7 +206,7 @@ class Ui_MainWindow(object):
         self.lineEdit_clients.setClearButtonEnabled(False)
         self.lineEdit_clients.setObjectName("lineEdit_clients")
         self.lineEdit_info = QtWidgets.QLineEdit(self.tab_5)
-        self.lineEdit_info.setGeometry(QtCore.QRect(12, 60, 721, 351))
+        self.lineEdit_info.setGeometry(QtCore.QRect(12, 60, 721, 311))
         self.lineEdit_info.setStyleSheet("color: rgb(255, 255, 255);\n"
 "font: 87 8pt \"Segoe UI Black\";\n"
 "border: 0px;\n"
@@ -214,6 +214,21 @@ class Ui_MainWindow(object):
 "")
         self.lineEdit_info.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.lineEdit_info.setObjectName("lineEdit_info")
+        self.lineEdit_sum = QtWidgets.QLineEdit(self.tab_5)
+        self.lineEdit_sum.setGeometry(QtCore.QRect(12, 392, 231, 21))
+        self.lineEdit_sum.setStyleSheet("color: rgb(255, 255, 255);\n"
+"font: 87 8pt \"Segoe UI Black\";\n"
+"border: 0px;\n"
+"\n"
+"")
+        self.lineEdit_sum.setInputMask("")
+        self.lineEdit_sum.setText("")
+        self.lineEdit_sum.setMaxLength(32767)
+        self.lineEdit_sum.setFrame(True)
+        self.lineEdit_sum.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.lineEdit_sum.setCursorMoveStyle(QtCore.Qt.VisualMoveStyle)
+        self.lineEdit_sum.setClearButtonEnabled(False)
+        self.lineEdit_sum.setObjectName("lineEdit_sum")
         self.tabWidget_2.addTab(self.tab_5, "")
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -226,7 +241,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(1)
-        self.tabWidget_2.setCurrentIndex(0)
+        self.tabWidget_2.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -253,6 +268,8 @@ class Ui_MainWindow(object):
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), _translate("MainWindow", "Таблица заказов"))
         self.pushButton_input.setText(_translate("MainWindow", "Внести"))
         self.lineEdit_clients.setPlaceholderText(_translate("MainWindow", "Клиент"))
+        self.lineEdit_info.setPlaceholderText(_translate("MainWindow", "Информация"))
+        self.lineEdit_sum.setPlaceholderText(_translate("MainWindow", "Стоимость"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_5), _translate("MainWindow", "Внести заказ"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Заказы"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Клиенты"))
