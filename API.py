@@ -19,14 +19,14 @@ class Work(QtWidgets.QMainWindow):
         self.ui.pushButton_input.clicked.connect(self.new_services)
         self.ui.pushButton.clicked.connect(self.check)
 
-    def regist(self):
+    def regist(self):               #Добавление клиента В БД
         FIO = self.ui.lineEdit_FIO.text()
         num = self.ui.lineEdit_num.text()
         email = self.ui.lineEdit_email.text()
         date = self.ui.lineEdit_date.text()
         self.APIBD.registration(FIO, num, email, date)
 
-    def new_services(self):
+    def new_services(self):             #Добавление заказа в БД
         clientID = int(self.ui.lineEdit_clients.text())
         stat = str("На выполнении")
         date = str(datetime.date.today())
@@ -34,7 +34,7 @@ class Work(QtWidgets.QMainWindow):
         summ = int(self.ui.lineEdit_sum.text())
         self.APIBD.new_service(clientID, info, date, stat, summ)
 
-    def check(self):
+    def check(self):            #Внесение в таблицу информации с БД
         usersIDs = self.APIBD.show_all_service()
         print(len(usersIDs))
         self.ui.tableWidget_2.clear()
@@ -54,19 +54,38 @@ class Work(QtWidgets.QMainWindow):
                     button.clicked.connect(lambda _, row=save: self.openInterfaceOrders(row))
                     self.ui.tableWidget_2.setCellWidget(i, j, button)
 
-    def openInterfaceOrders(self, row):
+    def openInterfaceOrders(self, row):             #Открытие окна заказа
         self.other_interface = QtWidgets.QMainWindow()
         self.ui_other = Ui_Order()
         self.ui_other.setupUi(self.other_interface)
         self.other_interface.show()
 
-        self.ui_other.TextOrder_id.setText(row)
-
+        self.ui_other.TextOrder_id.setText("Заказ № " + row)
         InfoID = self.APIBD.showOrderDialog(row)
-        self.ui_other.textBrowser_FIO.setText(str(InfoID[0][0]))
-        self.ui_other.textBrowser_date.setText(str(InfoID[0][1]))
+
+        html_text = "<div align='center'>Заказ № " + row + "</div>"
+        self.ui_other.TextOrder_id.setText(html_text)
+
+        html_text = "<div align='center'>Клиент:</div><div align='center'>" + str(InfoID[0][0]) + "</div>"
+        self.ui_other.textBrowser_FIO.setText(html_text)
+
+        html_text = "<div align='center'>Дата:</div><div align='center'>" + str(InfoID[0][1]) + "</div>"
+        self.ui_other.textBrowser_date.setText(html_text)
+
         self.ui_other.textBrowser_info.setText(str(InfoID[0][2]))
-        self.ui_other.textBrowser_sum.setText(str(InfoID[0][3]))
+
+        html_text = "<div align='center'>Стоимость:</div><div align='center'>" + str(InfoID[0][3]) + "</div>"
+        self.ui_other.textBrowser_sum.setText(html_text)
+
+        #Доп. настройка стилей
+        style = ("font: 87 12pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+        self.ui_other.textBrowser_FIO.setStyleSheet(style)
+        self.ui_other.TextOrder_id.setStyleSheet(style + "font: 87 22pt \"Segoe UI Black\";")
+        self.ui_other.textBrowser_date.setStyleSheet(style)
+        self.ui_other.textBrowser_info.setStyleSheet(style)
+        self.ui_other.textBrowser_sum.setStyleSheet(style)
 
 
 

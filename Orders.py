@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\Orders.ui'
+# Form implementation generated from reading ui file 'D:\rabota\Orders.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -17,7 +17,7 @@ class Ui_Order(object):
         Order.resize(800, 567)
         Order.setStyleSheet("background-color: rgb(98, 98, 98);")
         self.TextOrder_id = QtWidgets.QTextBrowser(Order)
-        self.TextOrder_id.setGeometry(QtCore.QRect(270, 10, 261, 51))
+        self.TextOrder_id.setGeometry(QtCore.QRect(0, 10, 801, 51))
         self.TextOrder_id.setStyleSheet("color: rgb(255, 255, 255);\n"
 "border: 0px;\n"
 "\n"
@@ -47,6 +47,7 @@ class Ui_Order(object):
         self.textBrowser_FIO = QtWidgets.QTextBrowser(self.horizontalLayoutWidget)
         self.textBrowser_FIO.setStyleSheet("color: rgb(255, 255, 255);\n"
 "border: 0px;\n"
+"text-align: center;\n"
 "\n"
 "")
         self.textBrowser_FIO.setObjectName("textBrowser_FIO")

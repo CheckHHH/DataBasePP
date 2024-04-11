@@ -6,7 +6,7 @@ class DataBaseApi:
     def __init__(self):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='root',
+                                          password='admin',
                                           database='bd')
         try:
             with self.connection:
@@ -19,7 +19,7 @@ class DataBaseApi:
     def registration(self, FIO, number, email, datebrith):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='root',
+                                          password='admin',
                                           database='bd')
         with self.connection:
             with self.connection.cursor() as cursor:
@@ -30,7 +30,7 @@ class DataBaseApi:
     def new_service(self, client_id, info, date, stat, summ):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='root',
+                                          password='admin',
                                           database='bd')
         with self.connection:
             with self.connection.cursor() as cursor:
@@ -41,7 +41,7 @@ class DataBaseApi:
     def show_all_service(self):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='root',
+                                          password='admin',
                                           database='bd')
         with self.connection:
             self.cr = self.connection.cursor()
@@ -57,7 +57,7 @@ class DataBaseApi:
     def showOrderDialog(self, num):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
-                                          password='root',
+                                          password='admin',
                                           database='bd')
         with self.connection:
             self.cr = self.connection.cursor()

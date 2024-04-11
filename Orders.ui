@@ -19,9 +19,9 @@
   <widget class="QTextBrowser" name="TextOrder_id">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>0</x>
      <y>10</y>
-     <width>261</width>
+     <width>801</width>
      <height>51</height>
     </rect>
    </property>
@@ -107,6 +107,7 @@ background-color: rgb(255, 255, 255);</string>
       <property name="styleSheet">
        <string notr="true">color: rgb(255, 255, 255);
 border: 0px;
+text-align: center;
 
 </string>
       </property>
