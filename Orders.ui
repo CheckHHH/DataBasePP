@@ -10,6 +10,18 @@
     <height>567</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>567</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>567</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -186,7 +198,8 @@ background-color: rgb(255, 255, 255);</string>
    <property name="styleSheet">
     <string notr="true">border-radius: 10%;
 font: 87 8pt &quot;Segoe UI Black&quot;;
-background-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+background-color: rgb(255, 0, 0);</string>
    </property>
    <property name="text">
     <string>Удалить заказ</string>

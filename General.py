@@ -54,6 +54,20 @@ class DataBaseApi:
                 print(123)
             return result
 
+    def show_all_clients(self):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            self.cr = self.connection.cursor()
+            log = f'''select * from clients'''
+            self.cr.execute(log)
+            result = self.cr.fetchall()
+            for x in result:
+                print(321)
+            return result
+
     def showOrderDialog(self, num):
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
@@ -71,3 +85,21 @@ class DataBaseApi:
             for x in result:
                 print(123)
             return result
+
+    def showClientDialog(self, num):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            self.cr = self.connection.cursor()
+            log = f'''SELECT clients.FIO, clients.phone, clients.email, clients.datebrith
+                    FROM clients 
+                    WHERE clients.id = {num};
+            '''
+            self.cr.execute(log)
+            result = self.cr.fetchall()
+            for x in result:
+                print(123)
+            return result
+
