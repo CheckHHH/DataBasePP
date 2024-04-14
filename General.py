@@ -45,7 +45,7 @@ class DataBaseApi:
                                           database='bd')
         with self.connection:
             self.cr = self.connection.cursor()
-            log = f'''select orders.order_id, clients.FIO, orders.stat, orders.date_acceptance from orders
+            log = f'''SELECT orders.order_id, clients.FIO, orders.stat, orders.date_acceptance FROM orders
             JOIN clients ON orders.client_id = clients.id
             '''
             self.cr.execute(log)
@@ -61,7 +61,7 @@ class DataBaseApi:
                                           database='bd')
         with self.connection:
             self.cr = self.connection.cursor()
-            log = f'''select * from clients'''
+            log = f'''SELECT * FROM clients'''
             self.cr.execute(log)
             result = self.cr.fetchall()
             for x in result:
@@ -103,3 +103,40 @@ class DataBaseApi:
                 print(123)
             return result
 
+    def findOrders(self, str):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            self.cr = self.connection.cursor()
+            log = f'''SELECT orders.order_id, clients.FIO, orders.stat, orders.date_acceptance FROM orders
+                        JOIN clients ON orders.client_id = clients.id
+                        WHERE order_id LIKE '%{str}%' OR 
+                        clients.FIO LIKE '%{str}%' OR
+                        date_acceptance LIKE '%{str}%';
+                    '''
+            self.cr.execute(log)
+            result = self.cr.fetchall()
+            for x in result:
+                print()
+            return result
+
+    def findClients(self, str):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            self.cr = self.connection.cursor()
+            log = f'''SELECT * FROM clients
+                        WHERE FIO LIKE '%{str}%' OR 
+                        phone LIKE '%{str}%' OR
+                        email LIKE '%{str}%' OR
+                        datebrith LIKE '%{str}%';
+                            '''
+            self.cr.execute(log)
+            result = self.cr.fetchall()
+            for x in result:
+                print()
+            return result

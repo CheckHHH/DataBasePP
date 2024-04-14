@@ -199,7 +199,7 @@ background-color: rgb(255, 255, 255);</string>
     <string notr="true">border-radius: 10%;
 font: 87 8pt &quot;Segoe UI Black&quot;;
 color: rgb(255, 255, 255);
-background-color: rgb(255, 0, 0);</string>
+background-color: rgb(255, 106, 108);</string>
    </property>
    <property name="text">
     <string>Удалить заказ</string>

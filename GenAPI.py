@@ -1,11 +1,16 @@
 import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QTimer
 import sys
-from Interface import Ui_MainWindow
 from General import DataBaseApi
-from Orders import Ui_Order
-from Clients import Ui_ClientDialog
+
 import re
+
+#Интерфейсы
+from interface.Interface import Ui_MainWindow
+from interface.Orders import Ui_Order
+from interface.Clients import Ui_ClientDialog
+
 
 class Work(QtWidgets.QMainWindow):
 
@@ -13,6 +18,7 @@ class Work(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.timer = QTimer()
 
         self.APIBD = DataBaseApi()
 
@@ -21,25 +27,52 @@ class Work(QtWidgets.QMainWindow):
         self.ui.pushButton.clicked.connect(self.checkOrders)
         self.ui.pushButton_2.clicked.connect(self.checkClients)
         self.checkOrders()
+        self.checkClients()
 
     def regist(self):               #Добавление клиента В БД
-        FIO = self.ui.lineEdit_FIO.text()
-        num = self.ui.lineEdit_num.text()
-        email = self.ui.lineEdit_email.text()
-        date = self.ui.lineEdit_date.text()
-        self.APIBD.registration(FIO, num, email, date)
+        FIO = str(self.ui.lineEdit_FIO.text())
+        num = str(self.ui.lineEdit_num.text())
+        email = str(self.ui.lineEdit_email.text())
+        date = str(self.ui.lineEdit_date.text())
+        if FIO == "" or num == "" or email == "" or date == "":
+            string = "Ошибка"
+        else:
+            self.APIBD.registration(FIO, num, email, date)
+            string = "Успешно"
+        html_text = "<div align='center'>" + string + "</div>"
+        self.ui.textBrowser_errNewClient.setText(html_text)
+        style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+        self.ui.textBrowser_errNewClient.setStyleSheet(style)
+        self.timer.singleShot(3000, lambda: self.ui.textBrowser_errNewClient.setText(""))
 
     def new_services(self):             #Добавление заказа в БД
-        clientID = int(self.ui.lineEdit_clients.text())
+        clientID = str(self.ui.lineEdit_clients.text())
         stat = str("На выполнении")
         date = str(datetime.date.today())
         info = self.ui.lineEdit_info.text()
-        summ = int(self.ui.lineEdit_sum.text())
-        self.APIBD.new_service(clientID, info, date, stat, summ)
+        summ = str(self.ui.lineEdit_sum.text())
+        if clientID == "" or info == "" or summ == "":
+            string = "Ошибка"
+        else:
+            self.APIBD.new_service(int(clientID), info, date, stat, int(summ))
+            string = "Успешно"
+
+        self.ui.textBrowser_errNewOrder.setText(string)
+        style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+        self.ui.textBrowser_errNewOrder.setStyleSheet(style)
+        self.timer.singleShot(3000, lambda: self.ui.textBrowser_errNewOrder.setText(""))
 
     def checkOrders(self):            #Внесение в таблицу информации с БД (Заказы)
-        OrdersIDs = self.APIBD.show_all_service()
-        print(len(OrdersIDs))
+        find = str(self.ui.lineEdit_findOrders.text())
+        if str == "":
+            OrdersIDs = self.APIBD.show_all_service()
+        else:
+            OrdersIDs = self.APIBD.findOrders(find)
+        print("Таблица заказов обновлена")
         self.ui.tableWidget_2.clear()
         self.ui.tableWidget_2.setRowCount(len(OrdersIDs))
         self.ui.tableWidget_2.setSelectionMode(QtWidgets.QTableWidget.NoSelection)
@@ -47,15 +80,25 @@ class Work(QtWidgets.QMainWindow):
             for j in range(5):
                 if j == 0:
                     save = str(OrdersIDs[i][j])
-                    print(save)
+                    #print(save)
                 if j < 4:
                     self.ui.tableWidget_2.setItem(i, j, QtWidgets.QTableWidgetItem(str(OrdersIDs[i][j])))
                 else:
                     prints = "Заказ №" + save
                     button = QtWidgets.QPushButton(prints)
-                    button.setStyleSheet("background-color: white; border-radius: 10px;")
+                    button.setStyleSheet("background-color: white; border-radius: 3px; margin: 3px;")
                     button.clicked.connect(lambda _, row=save: self.openInterfaceOrders(row))
                     self.ui.tableWidget_2.setCellWidget(i, j, button)
+
+        headers = ['№', 'ФИО', 'Статус', 'Дата', 'Инфо/управление']
+        self.ui.tableWidget_2.setHorizontalHeaderLabels(headers)
+
+        self.ui.textBrowser_errCheckOrders.setText("Обновлено")
+        style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+        self.ui.textBrowser_errCheckOrders.setStyleSheet(style)
+        self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckOrders.setText(""))
 
     def openInterfaceOrders(self, row):             #Открытие окна заказа
         self.other_interface = QtWidgets.QMainWindow()
@@ -91,24 +134,35 @@ class Work(QtWidgets.QMainWindow):
         self.ui_other.textBrowser_sum.setStyleSheet(style)
 
     def checkClients(self):            #Внесение в таблицу информации с БД (Клиенты)
-        usersIDs = self.APIBD.show_all_clients()
-        print(len(usersIDs))
+        find = str(self.ui.lineEdit_2.text())
+        if str == "":
+            ClientsIDs = self.APIBD.show_all_service()
+        else:
+            ClientsIDs = self.APIBD.findClients(find)
+        print(len(ClientsIDs))
         self.ui.tableWidget_3.clear()
-        self.ui.tableWidget_3.setRowCount(len(usersIDs))
+        self.ui.tableWidget_3.setRowCount(len(ClientsIDs))
         self.ui.tableWidget_3.setSelectionMode(QtWidgets.QTableWidget.NoSelection)
-        for i in range(len(usersIDs)):
+        for i in range(len(ClientsIDs)):
             for j in range(6):
                 if j == 0:
-                    save = str(usersIDs[i][j])
+                    save = str(ClientsIDs[i][j])
                     print(save)
                 if j < 5:
-                    self.ui.tableWidget_3.setItem(i, j, QtWidgets.QTableWidgetItem(str(usersIDs[i][j])))
+                    self.ui.tableWidget_3.setItem(i, j, QtWidgets.QTableWidgetItem(str(ClientsIDs[i][j])))
                 else:
                     prints = "Управление №" + save
                     button = QtWidgets.QPushButton(prints)
-                    button.setStyleSheet("background-color: white; border-radius: 10px;")
+                    button.setStyleSheet("background-color: white; border-radius: 3px; margin: 3px;")
                     button.clicked.connect(lambda _, row=save: self.openInterfaceClients(row))
                     self.ui.tableWidget_3.setCellWidget(i, j, button)
+
+        self.ui.textBrowser_errCheckClients.setText("Обновлено")
+        style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+        self.ui.textBrowser_errCheckClients.setStyleSheet(style)
+        self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
 
     def openInterfaceClients(self, row):
         self.clients_interface = QtWidgets.QMainWindow()
