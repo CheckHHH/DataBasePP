@@ -77,7 +77,7 @@ class DataBaseApi:
                                           database='bd')
         with self.connection:
             self.cr = self.connection.cursor()
-            log = f'''SELECT clients.FIO, orders.date_acceptance, orders.info, orders.summ 
+            log = f'''SELECT clients.FIO, orders.date_acceptance, orders.info, orders.summ, orders.stat
                     FROM orders 
                     JOIN clients ON orders.client_id = clients.id
                     WHERE orders.order_id = {num};
@@ -150,8 +150,13 @@ class DataBaseApi:
                                           database='bd')
         with self.connection:
             with self.connection.cursor() as cursor:
-                sql = "DELETE FROM clients WHERE id = %s"
-                cursor.execute(sql, (client_id))
+                sql_1 = '''DELETE orders
+                           FROM orders
+                            JOIN clients ON orders.client_id = clients.id
+                            WHERE client_id = %s;'''
+                sql_2 = "DELETE FROM clients WHERE id = %s"
+                cursor.execute(sql_1, (client_id))
+                cursor.execute(sql_2, (client_id))
             self.connection.commit()
 
     def changeClient(self, FIO, num, email, date, client_id):
@@ -163,4 +168,40 @@ class DataBaseApi:
             with self.connection.cursor() as cursor:
                 sql = "UPDATE clients SET FIO = %s, phone = %s, email = %s, datebrith = %s WHERE id = %s"
                 cursor.execute(sql, (FIO, num, email, date, client_id))
+            self.connection.commit()
+
+    def listClient(self):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            self.cr = self.connection.cursor()
+            log = f'''SELECT clients.FIO, clients.id FROM clients'''
+            self.cr.execute(log)
+            result = self.cr.fetchall()
+            for x in result:
+                print(123)
+            return result
+
+    def deleteOrder(self, client_id):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            with self.connection.cursor() as cursor:
+                sql = '''DELETE FROM orders WHERE order_id = %s'''
+                cursor.execute(sql, (client_id))
+            self.connection.commit()
+
+    def completeOrder(self, row, stat):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            with self.connection.cursor() as cursor:
+                sql = "UPDATE orders SET stat = %s WHERE order_id = %s"
+                cursor.execute(sql, (stat, row,))
             self.connection.commit()

@@ -29,13 +29,13 @@ class Ui_Order(object):
         self.textBrowser_info.setGeometry(QtCore.QRect(0, 140, 801, 351))
         self.textBrowser_info.setObjectName("textBrowser_info")
         self.pushButton_cancel = QtWidgets.QPushButton(Order)
-        self.pushButton_cancel.setGeometry(QtCore.QRect(10, 520, 171, 31))
+        self.pushButton_cancel.setGeometry(QtCore.QRect(320, 520, 171, 31))
         self.pushButton_cancel.setStyleSheet("border-radius: 10%;\n"
 "font: 87 8pt \"Segoe UI Black\";\n"
 "background-color: rgb(255, 255, 255);")
         self.pushButton_cancel.setObjectName("pushButton_cancel")
         self.pushButton_complete = QtWidgets.QPushButton(Order)
-        self.pushButton_complete.setGeometry(QtCore.QRect(620, 520, 171, 31))
+        self.pushButton_complete.setGeometry(QtCore.QRect(10, 520, 171, 31))
         self.pushButton_complete.setStyleSheet("border-radius: 10%;\n"
 "font: 87 8pt \"Segoe UI Black\";\n"
 "background-color: rgb(255, 255, 255);")
@@ -68,14 +68,8 @@ class Ui_Order(object):
 "")
         self.textBrowser_sum.setObjectName("textBrowser_sum")
         self.horizontalLayout.addWidget(self.textBrowser_sum)
-        self.pushButton_change = QtWidgets.QPushButton(Order)
-        self.pushButton_change.setGeometry(QtCore.QRect(210, 520, 171, 31))
-        self.pushButton_change.setStyleSheet("border-radius: 10%;\n"
-"font: 87 8pt \"Segoe UI Black\";\n"
-"background-color: rgb(255, 255, 255);")
-        self.pushButton_change.setObjectName("pushButton_change")
         self.pushButton_delete = QtWidgets.QPushButton(Order)
-        self.pushButton_delete.setGeometry(QtCore.QRect(420, 520, 171, 31))
+        self.pushButton_delete.setGeometry(QtCore.QRect(620, 520, 171, 31))
         self.pushButton_delete.setStyleSheet("border-radius: 10%;\n"
 "font: 87 8pt \"Segoe UI Black\";\n"
 "color: rgb(255, 255, 255);\n"
@@ -87,7 +81,7 @@ class Ui_Order(object):
 
     def retranslateUi(self, Order):
         _translate = QtCore.QCoreApplication.translate
-        Order.setWindowTitle(_translate("Order", "Dialog"))
+        Order.setWindowTitle(_translate("Order", "Заказ"))
         self.TextOrder_id.setHtml(_translate("Order", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -115,5 +109,4 @@ class Ui_Order(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI Black\'; font-size:12pt;\">Стоимость:</span></p></body></html>"))
-        self.pushButton_change.setText(_translate("Order", "Изменить заказ"))
         self.pushButton_delete.setText(_translate("Order", "Удалить заказ"))

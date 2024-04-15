@@ -11,6 +11,7 @@ import re
 from interface.Interface import Ui_MainWindow
 from interface.Orders import Ui_Order
 from interface.Clients import Ui_ClientDialog
+from interface.Warning import Ui_Dialog
 
 
 class Work(QtWidgets.QMainWindow):
@@ -27,6 +28,8 @@ class Work(QtWidgets.QMainWindow):
         self.ui.pushButton_input.clicked.connect(self.new_services)
         self.ui.pushButton.clicked.connect(self.checkOrders)
         self.ui.pushButton_2.clicked.connect(self.checkClients)
+        #self.ui.comboBox_listClients.activated.connect(self.listClients)
+        self.listClients()
         self.checkOrders()
         self.checkClients()
 
@@ -49,7 +52,8 @@ class Work(QtWidgets.QMainWindow):
         self.timer.singleShot(3000, lambda: self.ui.textBrowser_errNewClient.setText(""))
 
     def new_services(self):             #Добавление заказа в БД
-        clientID = str(self.ui.lineEdit_clients.text())
+        client = str(self.ui.comboBox_listClients.currentText())
+        clientID = ''.join(filter(str.isdigit, client))
         stat = str("На выполнении")
         date = str(datetime.date.today())
         info = self.ui.lineEdit_info.text()
@@ -59,6 +63,7 @@ class Work(QtWidgets.QMainWindow):
         else:
             self.APIBD.new_service(int(clientID), info, date, stat, int(summ))
             string = "Успешно"
+            self.checkOrders()
 
         self.ui.textBrowser_errNewOrder.setText(string)
         style = ("font: 87 10pt \"Segoe UI Black\";\n"
@@ -73,7 +78,6 @@ class Work(QtWidgets.QMainWindow):
             OrdersIDs = self.APIBD.show_all_service()
         else:
             OrdersIDs = self.APIBD.findOrders(find)
-        print("Таблица заказов обновлена")
         self.ui.tableWidget_2.clear()
         self.ui.tableWidget_2.setRowCount(len(OrdersIDs))
         self.ui.tableWidget_2.setSelectionMode(QtWidgets.QTableWidget.NoSelection)
@@ -102,37 +106,111 @@ class Work(QtWidgets.QMainWindow):
         self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckOrders.setText(""))
 
     def openInterfaceOrders(self, row):             #Открытие окна заказа
-        self.other_interface = QtWidgets.QMainWindow()
-        self.ui_other = Ui_Order()
-        self.ui_other.setupUi(self.other_interface)
-        self.other_interface.show()
+        self.orders_interface = QtWidgets.QMainWindow()
+        self.ui_order = Ui_Order()
+        self.ui_order.setupUi(self.orders_interface)
+        self.orders_interface.show()
 
-        self.ui_other.TextOrder_id.setText("Заказ № " + row)
         InfoID = self.APIBD.showOrderDialog(row)
 
         html_text = "<div align='center'>Заказ № " + row + "</div>"
-        self.ui_other.TextOrder_id.setText(html_text)
+        self.ui_order.TextOrder_id.setText(html_text)
 
         html_text = "<div align='center'>Клиент:</div><div align='center'>" + str(InfoID[0][0]) + "</div>"
-        self.ui_other.textBrowser_FIO.setText(html_text)
+        self.ui_order.textBrowser_FIO.setText(html_text)
 
         html_text = "<div align='center'>Дата:</div><div align='center'>" + str(InfoID[0][1]) + "</div>"
-        self.ui_other.textBrowser_date.setText(html_text)
+        self.ui_order.textBrowser_date.setText(html_text)
 
-        self.ui_other.textBrowser_info.setText(str(InfoID[0][2]))
+        html_text = "<div align='center'>Инфо:</div><div align='center'>" + str(InfoID[0][2]) + "</div>"
+        self.ui_order.textBrowser_info.setText(html_text)
 
         html_text = "<div align='center'>Стоимость:</div><div align='center'>" + str(InfoID[0][3]) + "</div>"
-        self.ui_other.textBrowser_sum.setText(html_text)
+        self.ui_order.textBrowser_sum.setText(html_text)
+
+        if str(InfoID[0][4]) == "Завершён" or str(InfoID[0][4]) == "Отменён":
+            self.ui_order.pushButton_complete.hide()
+            self.ui_order.pushButton_cancel.hide()
+            self.ui_order.pushButton_delete.setGeometry(QtCore.QRect(10, 520, 780, 31))
 
         #Доп. настройка стилей
         style = ("font: 87 12pt \"Segoe UI Black\";\n"
                  "color: rgb(255, 255, 255);"
                  "border: 0px;")
-        self.ui_other.textBrowser_FIO.setStyleSheet(style)
-        self.ui_other.TextOrder_id.setStyleSheet(style + "font: 87 22pt \"Segoe UI Black\";")
-        self.ui_other.textBrowser_date.setStyleSheet(style)
-        self.ui_other.textBrowser_info.setStyleSheet(style)
-        self.ui_other.textBrowser_sum.setStyleSheet(style)
+        self.ui_order.textBrowser_FIO.setStyleSheet(style)
+        self.ui_order.TextOrder_id.setStyleSheet(style + "font: 87 22pt \"Segoe UI Black\";")
+        self.ui_order.textBrowser_date.setStyleSheet(style)
+        self.ui_order.textBrowser_info.setStyleSheet(style)
+        self.ui_order.textBrowser_sum.setStyleSheet(style)
+
+        delete_func = functools.partial(self.deleteOrders, row)
+        self.ui_order.pushButton_delete.clicked.connect(delete_func)
+
+        complete_str = "Завершён"
+        complete_func = functools.partial(self.completeOrders, (row, complete_str))
+        self.ui_order.pushButton_complete.clicked.connect(complete_func)
+
+        cancel_str = "Отменён"
+        complete_func = functools.partial(self.completeOrders, (row, cancel_str))
+        self.ui_order.pushButton_cancel.clicked.connect(complete_func)
+
+    def completeOrders(self, row, complete_str):
+        self.warning_interface = QtWidgets.QMainWindow()
+        self.ui_warning = Ui_Dialog()
+        self.ui_warning.setupUi(self.warning_interface)
+        self.warning_interface.show()
+
+        html_text = "<div align='center'>Внимание: заказ приобретёт статус и его нельзя будет изменить</div>"
+        self.ui_warning.textBrowser.setText(html_text)
+        style = ("font: 87 13pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+        self.ui_warning.textBrowser.setStyleSheet(style)
+
+        self.ui_warning.pushButton_OK.clicked.connect(lambda: clickOK(row))
+        self.ui_warning.pushButton_cancel.clicked.connect(self.warning_interface.close)
+
+        def clickOK(row):
+            self.APIBD.completeOrder(row[0], row[1])
+            self.orders_interface.close()
+            self.warning_interface.close()
+            self.checkOrders()
+
+            self.ui.textBrowser_errCheckOrders.setText("Заказ № " + row[0] + " завершён/отменён")
+            style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                     "color: rgb(255, 255, 255);"
+                     "border: 0px;")
+
+            self.ui.textBrowser_errCheckClients.setStyleSheet(style)
+            self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
+    def deleteOrders(self, row):
+        self.warning_interface = QtWidgets.QMainWindow()
+        self.ui_warning = Ui_Dialog()
+        self.ui_warning.setupUi(self.warning_interface)
+        self.warning_interface.show()
+
+        html_text = "<div align='center'>Внимание: данное действие не отменить, вы уверены?</div>"
+        self.ui_warning.textBrowser.setText(html_text)
+        style = ("font: 87 15pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+        self.ui_warning.textBrowser.setStyleSheet(style)
+
+        self.ui_warning.pushButton_OK.clicked.connect(lambda: clickOK(row))
+        self.ui_warning.pushButton_cancel.clicked.connect(self.warning_interface.close)
+        def clickOK(row):
+            self.APIBD.deleteOrder(row)
+            self.orders_interface.close()
+            self.warning_interface.close()
+            self.checkOrders()
+
+            self.ui.textBrowser_errCheckOrders.setText("Заказ № " + row + " удалён")
+            style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                    "color: rgb(255, 255, 255);"
+                    "border: 0px;")
+
+            self.ui.textBrowser_errCheckClients.setStyleSheet(style)
+            self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
 
     def checkClients(self):            #Внесение в таблицу информации с БД (Клиенты)
         find = str(self.ui.lineEdit_2.text())
@@ -202,23 +280,33 @@ class Work(QtWidgets.QMainWindow):
         delete_func = functools.partial(self.deleteClients, row)
         self.ui_client.pushButton_deleteClient.clicked.connect(delete_func)
 
-        change_func = functools.partial(self.changeClients, row)
+        change_func = functools.partial(self.changeClients, (row, ))
         self.ui_client.pushButton_changeClient.clicked.connect(change_func)
 
     def deleteClients(self, row):
-        self.APIBD.deleteClient(row)
-        self.clients_interface.close()
-        self.checkClients()
+        self.warning_interface = QtWidgets.QMainWindow()
+        self.ui_warning = Ui_Dialog()
+        self.ui_warning.setupUi(self.warning_interface)
+        self.warning_interface.show()
 
-        self.ui.textBrowser_errCheckClients.setText("Клиент № " + row + " удалён")
-        style = ("font: 87 10pt \"Segoe UI Black\";\n"
-                 "color: rgb(255, 255, 255);"
-                 "border: 0px;")
+        self.ui_warning.pushButton_OK.clicked.connect(lambda: clickOK(row))
+        self.ui_warning.pushButton_cancel.clicked.connect(self.warning_interface.close)
+        def clickOK(row):
+            self.APIBD.deleteClient(row)
+            self.clients_interface.close()
+            self.warning_interface.close()
+            self.checkOrders()
+            self.checkClients()
 
-        self.ui.textBrowser_errCheckClients.setStyleSheet(style)
-        self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
+            self.ui.textBrowser_errCheckClients.setText("Клиент № " + row + " удалён")
+            style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                    "color: rgb(255, 255, 255);"
+                    "border: 0px;")
 
-    def changeClients(self, row):
+            self.ui.textBrowser_errCheckClients.setStyleSheet(style)
+            self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
+
+    def changeClients(self, row, InfoID):
         self.ui_client.groupBox_change.show()
         self.ui_client.pushButton_changeCancel.clicked.connect(self.ui_client.groupBox_change.hide)
 
@@ -242,6 +330,12 @@ class Work(QtWidgets.QMainWindow):
 
         self.ui.textBrowser_errCheckClients.setStyleSheet(style)
         self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
+
+    def listClients(self):
+        self.ui.comboBox_listClients.clear()
+        UsersID = self.APIBD.listClient()
+        for i in range(len(UsersID)):
+            self.ui.comboBox_listClients.addItem(str(UsersID[i][0]) + " №" + str(UsersID[i][1]))
 
 
 

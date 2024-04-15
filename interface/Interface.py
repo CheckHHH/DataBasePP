@@ -25,9 +25,7 @@ class Ui_MainWindow(object):
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(0, 0, 801, 601))
         self.tabWidget.setAutoFillBackground(False)
-        self.tabWidget.setStyleSheet("\n"
-"\n"
-"QTabWidget::pane \n"
+        self.tabWidget.setStyleSheet("QTabWidget::pane \n"
 "{\n"
 "    font:8pt \"Segoe UI Black\";\n"
 "    border: 0px;\n"
@@ -48,8 +46,6 @@ class Ui_MainWindow(object):
 "\n"
 "QTabBar::tab:hover\n"
 "{\n"
-"    \n"
-"    \n"
 "    background-color: rgb(85, 85, 85);\n"
 "}")
         self.tabWidget.setElideMode(QtCore.Qt.ElideNone)
@@ -225,21 +221,6 @@ class Ui_MainWindow(object):
 "font: 87 8pt \"Segoe UI Black\";\n"
 "background-color: rgb(255, 255, 255);")
         self.pushButton_input.setObjectName("pushButton_input")
-        self.lineEdit_clients = QtWidgets.QLineEdit(self.tab_5)
-        self.lineEdit_clients.setGeometry(QtCore.QRect(12, 10, 231, 21))
-        self.lineEdit_clients.setStyleSheet("color: rgb(255, 255, 255);\n"
-"font: 87 8pt \"Segoe UI Black\";\n"
-"border: 0px;\n"
-"\n"
-"")
-        self.lineEdit_clients.setInputMask("")
-        self.lineEdit_clients.setText("")
-        self.lineEdit_clients.setMaxLength(32767)
-        self.lineEdit_clients.setFrame(True)
-        self.lineEdit_clients.setEchoMode(QtWidgets.QLineEdit.Normal)
-        self.lineEdit_clients.setCursorMoveStyle(QtCore.Qt.VisualMoveStyle)
-        self.lineEdit_clients.setClearButtonEnabled(False)
-        self.lineEdit_clients.setObjectName("lineEdit_clients")
         self.lineEdit_info = QtWidgets.QLineEdit(self.tab_5)
         self.lineEdit_info.setGeometry(QtCore.QRect(12, 60, 721, 311))
         self.lineEdit_info.setStyleSheet("color: rgb(255, 255, 255);\n"
@@ -268,6 +249,17 @@ class Ui_MainWindow(object):
         self.textBrowser_errNewOrder.setGeometry(QtCore.QRect(10, 440, 451, 31))
         self.textBrowser_errNewOrder.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.textBrowser_errNewOrder.setObjectName("textBrowser_errNewOrder")
+        self.comboBox_listClients = QtWidgets.QComboBox(self.tab_5)
+        self.comboBox_listClients.setGeometry(QtCore.QRect(10, 10, 241, 22))
+        self.comboBox_listClients.setStyleSheet("color: rgb(255, 255, 255);\n"
+"font: 87 8pt \"Segoe UI Black\";\n"
+"border: 5px;\n"
+"\n"
+"\n"
+"")
+        self.comboBox_listClients.setEditable(True)
+        self.comboBox_listClients.setCurrentText("")
+        self.comboBox_listClients.setObjectName("comboBox_listClients")
         self.tabWidget_2.addTab(self.tab_5, "")
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -348,7 +340,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "NNT"))
         self.pushButton_reg.setText(_translate("MainWindow", "Внести"))
         self.lineEdit_FIO.setPlaceholderText(_translate("MainWindow", "ФИО"))
         self.lineEdit_num.setPlaceholderText(_translate("MainWindow", "Телефон"))
@@ -379,7 +371,6 @@ class Ui_MainWindow(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), _translate("MainWindow", "Таблица заказов"))
         self.pushButton_input.setText(_translate("MainWindow", "Внести"))
-        self.lineEdit_clients.setPlaceholderText(_translate("MainWindow", "Клиент"))
         self.lineEdit_info.setPlaceholderText(_translate("MainWindow", "Информация"))
         self.lineEdit_sum.setPlaceholderText(_translate("MainWindow", "Стоимость"))
         self.textBrowser_errNewOrder.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

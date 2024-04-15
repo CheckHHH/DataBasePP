@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Заказ</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(98, 98, 98);</string>
@@ -71,7 +71,7 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="pushButton_cancel">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>320</x>
      <y>520</y>
      <width>171</width>
      <height>31</height>
@@ -89,7 +89,7 @@ background-color: rgb(255, 255, 255);</string>
   <widget class="QPushButton" name="pushButton_complete">
    <property name="geometry">
     <rect>
-     <x>620</x>
+     <x>10</x>
      <y>520</y>
      <width>171</width>
      <height>31</height>
@@ -168,28 +168,10 @@ p, li { white-space: pre-wrap; }
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton_change">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>520</y>
-     <width>171</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border-radius: 10%;
-font: 87 8pt &quot;Segoe UI Black&quot;;
-background-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>Изменить заказ</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_delete">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>620</x>
      <y>520</y>
      <width>171</width>
      <height>31</height>
