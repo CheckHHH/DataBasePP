@@ -109,7 +109,7 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton_delete_2">
+   <widget class="QPushButton" name="pushButton_changeClient">
     <property name="geometry">
      <rect>
       <x>620</x>
@@ -127,7 +127,7 @@ background-color: rgb(255, 255, 255);</string>
      <string>Изменить</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_delete_3">
+   <widget class="QPushButton" name="pushButton_deleteClient">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -146,7 +146,7 @@ background-color: rgb(255, 106, 108);</string>
      <string>Удалить Клиента</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_delete_4">
+   <widget class="QPushButton" name="pushButton_blackList">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -163,6 +163,199 @@ background-color: rgb(255, 255, 255);</string>
     <property name="text">
      <string>Добавить в ЧС</string>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_change">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>390</y>
+      <width>801</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(98, 98, 98);
+border-radius: 1px;
+</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <widget class="QTextBrowser" name="textBrowser_errCheckClients_2">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>18</y>
+       <width>441</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_changeFIOClient">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+font: 87 8pt &quot;Segoe UI Black&quot;;
+border-bottom: 1px solid white;
+border-top: none; 
+border-left: none; 
+border-right: none;
+
+
+</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>ФИО клиента</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_changeNumClient">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>30</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+font: 87 8pt &quot;Segoe UI Black&quot;;
+border-bottom: 1px solid white;
+border-top: none; 
+border-left: none; 
+border-right: none;
+
+
+
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>Телефон</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_changeEmailClient">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>30</y>
+       <width>241</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+font: 87 8pt &quot;Segoe UI Black&quot;;
+border-bottom: 1px solid white;
+border-top: none; 
+border-left: none; 
+border-right: none;
+
+</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>Почта</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_changeDateClient">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>80</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+font: 87 8pt &quot;Segoe UI Black&quot;;
+border-bottom: 1px solid white;
+border-top: none; 
+border-left: none; 
+border-right: none;
+
+</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>Дата рождения</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_changeCancel">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>120</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 10%;
+font: 87 8pt &quot;Segoe UI Black&quot;;
+background-color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string>Отмена</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Accept">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>120</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 10%;
+font: 87 8pt &quot;Segoe UI Black&quot;;
+background-color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string>Принять</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

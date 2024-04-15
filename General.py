@@ -2,6 +2,8 @@ import pymysql
 import sys
 import re
 
+
+
 class DataBaseApi:
     def __init__(self):
         self.connection = pymysql.connect(host='localhost',
@@ -140,3 +142,25 @@ class DataBaseApi:
             for x in result:
                 print()
             return result
+
+    def deleteClient(self, client_id):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            with self.connection.cursor() as cursor:
+                sql = "DELETE FROM clients WHERE id = %s"
+                cursor.execute(sql, (client_id))
+            self.connection.commit()
+
+    def changeClient(self, FIO, num, email, date, client_id):
+        self.connection = pymysql.connect(host='localhost',
+                                          user='root',
+                                          password='admin',
+                                          database='bd')
+        with self.connection:
+            with self.connection.cursor() as cursor:
+                sql = "UPDATE clients SET FIO = %s, phone = %s, email = %s, datebrith = %s WHERE id = %s"
+                cursor.execute(sql, (FIO, num, email, date, client_id))
+            self.connection.commit()

@@ -2,6 +2,7 @@ import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 import sys
+import functools
 from General import DataBaseApi
 
 import re
@@ -161,14 +162,19 @@ class Work(QtWidgets.QMainWindow):
         style = ("font: 87 10pt \"Segoe UI Black\";\n"
                  "color: rgb(255, 255, 255);"
                  "border: 0px;")
+
         self.ui.textBrowser_errCheckClients.setStyleSheet(style)
         self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
+
+        headers = ['№', 'ФИО', 'Телефон', 'Почта', 'Дата рождения', 'Управление']
+        self.ui.tableWidget_3.setHorizontalHeaderLabels(headers)
 
     def openInterfaceClients(self, row):
         self.clients_interface = QtWidgets.QMainWindow()
         self.ui_client = Ui_ClientDialog()
         self.ui_client.setupUi(self.clients_interface)
         self.clients_interface.show()
+        self.ui_client.groupBox_change.hide()
 
         InfoID = self.APIBD.showClientDialog(row)
 
@@ -192,6 +198,53 @@ class Work(QtWidgets.QMainWindow):
         self.ui_client.TextClient_num.setStyleSheet(style)
         self.ui_client.TextClient_email.setStyleSheet(style)
         self.ui_client.TextClient_date.setStyleSheet(style)
+
+        delete_func = functools.partial(self.deleteClients, row)
+        self.ui_client.pushButton_deleteClient.clicked.connect(delete_func)
+
+        change_func = functools.partial(self.changeClients, row)
+        self.ui_client.pushButton_changeClient.clicked.connect(change_func)
+
+    def deleteClients(self, row):
+        self.APIBD.deleteClient(row)
+        self.clients_interface.close()
+        self.checkClients()
+
+        self.ui.textBrowser_errCheckClients.setText("Клиент № " + row + " удалён")
+        style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+
+        self.ui.textBrowser_errCheckClients.setStyleSheet(style)
+        self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
+
+    def changeClients(self, row):
+        self.ui_client.groupBox_change.show()
+        self.ui_client.pushButton_changeCancel.clicked.connect(self.ui_client.groupBox_change.hide)
+
+        change_func = functools.partial(self.acceptChangeClients, row)
+        self.ui_client.pushButton_changeAccept.clicked.connect(change_func)
+
+    def acceptChangeClients(self, row):
+        FIO = str(self.ui_client.lineEdit_changeFIOClient.text())
+        num = str(self.ui_client.lineEdit_changeNumClient.text())
+        email = str(self.ui_client.lineEdit_changeEmailClient.text())
+        date = str(self.ui_client.lineEdit_changeDateClient.text())
+        self.APIBD.changeClient(FIO, num, email, date, row)
+        self.ui_client.groupBox_change.hide()
+        self.clients_interface.close()
+        self.checkClients()
+
+        self.ui.textBrowser_errCheckClients.setText("Клиент № " + row + " изменён")
+        style = ("font: 87 10pt \"Segoe UI Black\";\n"
+                 "color: rgb(255, 255, 255);"
+                 "border: 0px;")
+
+        self.ui.textBrowser_errCheckClients.setStyleSheet(style)
+        self.timer.singleShot(3000, lambda: self.ui.textBrowser_errCheckClients.setText(""))
+
+
+
 
 
 
