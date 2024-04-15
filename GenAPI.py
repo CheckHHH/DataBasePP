@@ -1,3 +1,5 @@
+#version 1.0
+
 import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
